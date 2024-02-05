@@ -36,8 +36,12 @@ interface ModalProps {
 const Modal: FC<ModalProps> = ({ show, onClose, children }) => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target) && onClose) {
+    function handleClickOutside(event: TouchEvent | MouseEvent) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target as Node) &&
+        onClose
+      ) {
         onClose();
       }
     }
