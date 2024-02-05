@@ -68,6 +68,12 @@ const HomePage = () => {
         </div>
 
         <TodoList />
+
+        <div className="mt-10">
+          <code>
+            Source: <a href="https://github.com/Akbar1909/todo-app">@Github</a>
+          </code>
+        </div>
       </div>
 
       <Modal show={modal === "create"} onClose={onClose}>
