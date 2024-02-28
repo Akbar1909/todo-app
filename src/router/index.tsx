@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import { lazy } from "react";
+import AboutPage from "../pages/AboutPage";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 
@@ -7,7 +8,7 @@ function Router() {
   const routes = [
     {
       path: "/",
-      element: <HomePage />,
+      element: <AboutPage />,
     },
   ];
 
