@@ -1,58 +1,39 @@
-import { useRef } from "react";
+import { useState } from "react";
+import FocusAbleList from "../../components/FocusabeList";
 import XScrollableDiv from "../../components/XScrollableDiv/XScrollableDiv";
 
-let startX = 0;
-let scrollLeft = 0;
-let direction = "right";
-
 const AboutPage = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isMouseDownRef = useRef<boolean>(false);
-  const mouseMoveRef = useRef<boolean>(false);
+  const [data, setData] = useState({
+    1: Array(20).fill(""),
+    2: Array(20).fill(""),
+  });
 
-  function animateScroll() {
-    if (!containerRef.current || !mouseMoveRef.current) {
-      return;
-    }
-
-    const step = 1;
-
-    const scrollLeft = containerRef.current.scrollLeft;
-    const targetScrollLeft =
-      direction === "right"
-        ? Math.min(
-            containerRef.current.scrollWidth - containerRef.current.clientWidth,
-            scrollLeft + 50
-          )
-        : scrollLeft === 0
-        ? 0
-        : Math.max(scrollLeft - 50, 0);
-    const container = containerRef.current;
-
-    const animation = setInterval(() => {
-      if (container.scrollLeft === targetScrollLeft) {
-        clearInterval(animation);
-      } else if (container.scrollLeft < targetScrollLeft) {
-        container.scrollLeft += step;
-      } else {
-        container.scrollLeft -= step;
-      }
-    }, Math.floor(direction === "right" ? (targetScrollLeft - container.scrollLeft) / 10 : (container.scrollLeft - targetScrollLeft) / 10)); // Adjust this interval as needed
-  }
+  const appendItem = () =>
+    setData((prev) => ({ ...prev, 1: [...prev["1"], ""] }));
 
   return (
     <div className="p-4 flex">
+      <button onClick={appendItem}>Append</button>
       <XScrollableDiv>
-        {Array(12)
-          .fill("")
-          .map((_, i) => (
-            <div
-              onClick={() => alert("test")}
-              className="w-[200px] h-full flex items-center justify-center bg-blue-300 border border-gray-500"
-            >
-              <span className="text-5xl font-bold">{i}</span>
-            </div>
-          ))}
+        {Object.entries(data).map(([key, value], i) => (
+          <div
+            key={i}
+            className="w-[200px] h-full flex items-center justify-center bg-blue-300 border border-gray-500"
+          >
+            <FocusAbleList index={i}>
+              {value.map((_, j) => (
+                <div
+                  id={`id-${i}-${j}`}
+                  data-id={j}
+                  key={j}
+                  className="w-full h-10 border border-purple-400"
+                >
+                  {j}
+                </div>
+              ))}
+            </FocusAbleList>
+          </div>
+        ))}
       </XScrollableDiv>
     </div>
   );
